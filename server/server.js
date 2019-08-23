@@ -1,8 +1,11 @@
 require('./config/config')
+//require('./routes/usuario')
 const express = require('express');
-const bodyParser = require('body-parser');
 const app = express();
-const puerto =process.env.PORT || 3000;
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+
+//const puerto =process.env.PORT || 3000;
 
 //middlewares
 
@@ -12,41 +15,35 @@ const puerto =process.env.PORT || 3000;
         // parse application/json
         app.use(bodyParser.json());
 
- 
+        //importamos rutas de usuarios.js
+        //app.use((req,res)=>{require('./routes/usuario')}); 
+        //se uso arriba funcion de flecha pues daba error de middleware que espera una funcion
+        app.use( require('./routes/usuarioRoutes') );
 
-//operaciones CRUD (Create,Read,Update,Delete) (crear,leer,actualizar,borrar)
-app.get('/usuario', function (req, res) { //obtener informacion quizas crear o actualizar en bbdd
-  res.json('getUsuario')
+
+/****************
+mongoose.connect('mongodb://localhost:27017/cafeDemo',
+                { useNewUrlParser:true, useCreateIndex:true, useFindAndModify:false }, //actualizaciones al curso porque esta parte corrige lo deprecado
+                (error)=>{
+
+if(error) throw `No se pudo conectar a la base de datos por el error: ${error}`;
+
+console.log(`Base de Datos CORRIENDO`)
+
+});
+**************/
+
+mongoose.connect(process.env.URL_de_la_BBDD,
+                { useNewUrlParser:true, useCreateIndex:true , useFindAndModify:false }, //actualizaciones al curso porque esta parte corrige lo deprecado
+                (error)=>{
+
+if(error) throw `No se pudo conectar a la base de datos por el error: ${error}`;
+
+console.log(`Base de Datos CORRIENDO`)
+
 });
 
-app.post('/usuario', function (req, res) {// crear nuevos registros en bbdd
 
-    let body =req.body;
-
-    if (body.nombre === undefined) {
-        res.status(400).json({
-            ok:false,
-            explicacion : 'bad request',
-            mensaje: 'el nombre es necesario'
-        });
-    } else {
-        res.json({
-            persona : body
-        });
-    };
-});
-
-app.put('/usuario/:id', function (req, res) { //actualizar datos en bbdd, al igual que patch
-    let idUsuario =req.params.id;
-    res.json({
-        idUsuario
-    })
-});
-
-app.delete('/usuario', function (req, res) { //borrar informacion en la bbdd
-    res.json('deleteUsuario')
-});
- 
 app.listen(process.env.PORT, ()=>{
-    console.log(`Esta corriendo ya el servidor en el puerto: ${puerto}`,process.env.PORT);
+    console.log(`Esta corriendo ya el servidor en el puerto:  ${process.env.PORT}`);
 });
