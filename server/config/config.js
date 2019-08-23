@@ -19,12 +19,12 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'dev';
 
 let urlDataBase;
 
-//if(process.env.NODE_ENV==='dev'){
+if(process.env.NODE_ENV==='dev'){
         //LOCAL
-//        urlDataBase='mongodb://localhost:27017/cafeDemo'
-//}else{
+        urlDataBase='mongodb://localhost:27017/cafeDemo'
+}else{
         //NUBE
         urlDataBase='mongodb+srv://UsuarioPruebaAdminMongoDB:yUmyQASl3v3wkF9d@cluster0-wb7lv.gcp.mongodb.net/cafeDemo'
-//}
+}
 
 process.env.URL_de_la_BBDD = urlDataBase;
