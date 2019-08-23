@@ -21,10 +21,10 @@ let urlDataBase;
 
 if(process.env.NODE_ENV==='dev'){
         //LOCAL
-        urlDataBase='mongodb://localhost:27017/cafeDemo'
+        urlDataBase='mongodb://localhost:27017/cafeDemo';
 }else{
         //NUBE
-        urlDataBase='mongodb+srv://UsuarioPruebaAdminMongoDB:yUmyQASl3v3wkF9d@cluster0-wb7lv.gcp.mongodb.net/cafeDemo'
+        urlDataBase=process.env.MONGODB_ATLAS_URLACCESS;
 }
 
 process.env.URL_de_la_BBDD = urlDataBase;
