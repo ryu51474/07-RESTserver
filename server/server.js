@@ -18,8 +18,12 @@ const bodyParser = require('body-parser');
         //importamos rutas de usuarios.js
         //app.use((req,res)=>{require('./routes/usuario')}); 
         //se uso arriba funcion de flecha pues daba error de middleware que espera una funcion
-        app.use( require('./routes/usuarioRoutes') );
-
+        //app.use( require('./routes/usuarioRoutes') );
+        //ahora se ncluye una linea parecida para activar el login
+        //app.use( require( './routes/loginRoutes' ) );
+        //finalmente esto de hacerlo archivo por archivo no es recomendable ppor lo que se hara un require general en index.js
+        //ESTA ES LA CONFIGURACION GLOBAL DE RUTAS
+        app.use(require('./routes/index'));
 
 /****************
 mongoose.connect('mongodb://localhost:27017/cafeDemo',

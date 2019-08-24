@@ -2,11 +2,14 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const _ = require('underscore');
 const Usuario = require('../models/usuarioModels');
+const { verificatoken }= require('../middlewares/autenticacion') // otra forma de importar
 const app = express();
 
 
 //operaciones CRUD (Create,Read,Update,Delete) (crear,leer,actualizar,borrar)
-app.get('/usuario',  (req, res) =>{ //obtener informacion quizas crear o actualizar en bbdd
+
+//app.get(ruta,middleware,callback)
+app.get('/usuario', verificatoken ,(req, res) =>{ //obtener informacion quizas crear o actualizar en bbdd
     //res.json('getUsuario LOCAL!!!')
     let desde = req.query.desde || 0 //recibe el numero inicio de los registros y si no hay nada usa el 0
     let limite = req.query.limite || 5
@@ -38,7 +41,7 @@ app.get('/usuario',  (req, res) =>{ //obtener informacion quizas crear o actuali
                         cuantos_Usuarios_cumplen_condicion_true:conteo
                     }); 
                 });*/
-                Usuario.count({estado:false},(errorConteoFalses,conteosFalses)=>{
+                Usuario.countDocuments({estado:false},(errorConteoFalses,conteosFalses)=>{
                     if(errorConteoFalses){
                         res.status(400).json({
                             ok:false,
@@ -46,7 +49,7 @@ app.get('/usuario',  (req, res) =>{ //obtener informacion quizas crear o actuali
                         })
                     };
                     res.json({
-                        okfalses:true,
+                        okContandofalses:true,
                         clientes,
                         cuantos_Usuarios_cumplen_condicion_false:conteosFalses
                     });
@@ -56,7 +59,7 @@ app.get('/usuario',  (req, res) =>{ //obtener informacion quizas crear o actuali
             })
   });
   
-  app.post('/usuario',  (req, res)=> {// crear nuevos registros en bbdd
+  app.post('/usuario', verificatoken,   (req, res)=> {// crear nuevos registros en bbdd
   
       let body =req.body;
 
@@ -101,7 +104,7 @@ app.get('/usuario',  (req, res) =>{ //obtener informacion quizas crear o actuali
       }; */
   });
   
-  app.put('/usuario/:id',  (req, res) => { //actualizar datos en bbdd, al igual que patch
+  app.put('/usuario/:id', verificatoken, (req, res) => { //actualizar datos en bbdd, al igual que patch
       let idUsuario =req.params.id;
       let body = _.pick(req.body, ['nombre','email','img','role','estado']);
       //let usuario =res.nombre;
@@ -163,7 +166,7 @@ app.get('/usuario',  (req, res) =>{ //obtener informacion quizas crear o actuali
   });
   *************/
 
-  app.delete('/usuario/:id',(req,res)=>{//cambia la info en bbdd para que sea estado:false y NO ELIMINA EL REGISTRO
+  app.delete('/usuario/:id',verificatoken,(req,res)=>{//cambia la info en bbdd para que sea estado:false y NO ELIMINA EL REGISTRO
         let idDeleteMejorado = req.params.id;
         let estado = {estado:false};
 
