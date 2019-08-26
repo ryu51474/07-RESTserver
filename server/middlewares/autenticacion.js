@@ -16,6 +16,7 @@ let verificatoken = ( req,res,next ) => { // si no usa el next no sigue correndo
         if(errorVerifyToken){
             return res.status(401).json({
                 ok:false,
+                mensaje:'el token no es valido',
                 errorVerifyToken
             })
         };
@@ -28,8 +29,22 @@ let verificatoken = ( req,res,next ) => { // si no usa el next no sigue correndo
 
 };
 
+let verificaAdmin_Role = (req,res,next) =>{
+    let cliente= req.body.role;
 
+    if(cliente==='ADMIN_ROLE'){
+        next();
+    }else{
+        return res.status(400).json({
+            ok:false,
+            mensaje_de_error:'el usurio no puede hacer cambios porque no es administrador'
+        });
+    };
+
+
+}
 
 module.exports={
-    verificatoken
+    verificatoken,
+    verificaAdmin_Role
 }

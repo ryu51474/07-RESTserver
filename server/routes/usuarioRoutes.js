@@ -2,7 +2,7 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const _ = require('underscore');
 const Usuario = require('../models/usuarioModels');
-const { verificatoken }= require('../middlewares/autenticacion') // otra forma de importar
+const { verificatoken, verificaAdmin_Role}= require('../middlewares/autenticacion') // otra forma de importar
 const app = express();
 
 
@@ -59,7 +59,7 @@ app.get('/usuario', verificatoken ,(req, res) =>{ //obtener informacion quizas c
             })
   });
   
-  app.post('/usuario', verificatoken,   (req, res)=> {// crear nuevos registros en bbdd
+  app.post('/usuario', [verificatoken,verificaAdmin_Role],   (req, res)=> {// crear nuevos registros en bbdd
   
       let body =req.body;
 
@@ -104,7 +104,7 @@ app.get('/usuario', verificatoken ,(req, res) =>{ //obtener informacion quizas c
       }; */
   });
   
-  app.put('/usuario/:id', verificatoken, (req, res) => { //actualizar datos en bbdd, al igual que patch
+  app.put('/usuario/:id', [verificatoken,verificaAdmin_Role], (req, res) => { //actualizar datos en bbdd, al igual que patch
       let idUsuario =req.params.id;
       let body = _.pick(req.body, ['nombre','email','img','role','estado']);
       //let usuario =res.nombre;
@@ -166,7 +166,7 @@ app.get('/usuario', verificatoken ,(req, res) =>{ //obtener informacion quizas c
   });
   *************/
 
-  app.delete('/usuario/:id',verificatoken,(req,res)=>{//cambia la info en bbdd para que sea estado:false y NO ELIMINA EL REGISTRO
+  app.delete('/usuario/:id',[verificatoken,verificaAdmin_Role],(req,res)=>{//cambia la info en bbdd para que sea estado:false y NO ELIMINA EL REGISTRO
         let idDeleteMejorado = req.params.id;
         let estado = {estado:false};
 
