@@ -43,4 +43,10 @@ if(process.env.NODE_ENV==='dev'){
         urlDataBase=process.env.MONGODB_ATLAS_URLACCESS;
 };
 
+//=====================
+//Google CLIENT_ID
+//=====================
+
+process.env.CLIENT_ID = process.env.CLIENT_ID || '1036994765417-tgjki8bjttfgstrndno93j4v549ie2gv.apps.googleusercontent.com';
+
 process.env.URL_de_la_BBDD = urlDataBase;

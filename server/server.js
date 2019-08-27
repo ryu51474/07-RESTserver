@@ -4,6 +4,7 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const path = require('path');
 
 //const puerto =process.env.PORT || 3000;
 
@@ -15,6 +16,13 @@ const bodyParser = require('body-parser');
         // parse application/json
         app.use(bodyParser.json());
 
+        //MIDDLEWARE PARA HABILITAR EL INDEX.HTML DE CARPETA PUBLIC Y QUE FUNCIONE
+        //app.use( express.static( __dirname + '../../public')  );// supe hacerlo a mano
+        
+        app.use(express.static(path.resolve(__dirname,'../public')))
+
+
+        
         //importamos rutas de usuarios.js
         //app.use((req,res)=>{require('./routes/usuario')}); 
         //se uso arriba funcion de flecha pues daba error de middleware que espera una funcion
