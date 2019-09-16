@@ -11,8 +11,8 @@ const app = express();
 //app.get(ruta,middleware,callback)
 app.get('/usuario', verificatoken ,(req, res) =>{ //obtener informacion quizas crear o actualizar en bbdd
     //res.json('getUsuario LOCAL!!!')
-    let desde = req.query.desde || 0 //recibe el numero inicio de los registros y si no hay nada usa el 0
-    let limite = req.query.limite || 5
+    let desde = req.query.desde || 0;//recibe el numero inicio de los registros y si no hay nada usa el 0
+    let limite = req.query.limite || 5;
     //let llave=req.query.dato || null
     //let condicion=req.query.condicion || null
     let condicion_llaveValor_aCumplir={estado:true}
@@ -76,7 +76,7 @@ app.get('/usuario', verificatoken ,(req, res) =>{ //obtener informacion quizas c
       usuario.save((error, ususarioDB)=>{
           
         if(error){
-              res.status(400).json({
+            return res.status(400).json({
                   ok:false,
                   error
               })
@@ -113,11 +113,11 @@ app.get('/usuario', verificatoken ,(req, res) =>{ //obtener informacion quizas c
         ususarioDB.save()
       }); */
 
-      Usuario.findByIdAndUpdate(idUsuario,body,{new:true,runValidators:true},(error,usuarioDB)=>{
-        if(error){
+      Usuario.findByIdAndUpdate(idUsuario,body,{new:true,runValidators:true},(errorActualizaUsuario,usuarioDB)=>{
+        if(errorActualizaUsuario){
             res.status(400).json({
                 ok:false,
-                error
+                errorActualizaUsuario
             })
         };
 

@@ -30,14 +30,16 @@ let verificatoken = ( req,res,next ) => { // si no usa el next no sigue correndo
 };
 
 let verificaAdmin_Role = (req,res,next) =>{
-    let cliente= req.body.role;
+    let usuario = req.body.role;
 
-    if(cliente==='ADMIN_ROLE'){
+    console.log(usuario);
+
+    if(usuario==='ADMIN_ROLE'){
         next();
     }else{
         return res.status(400).json({
             ok:false,
-            mensaje_de_error:'el usurio no puede hacer cambios porque no es administrador'
+            mensaje_de_error_Verificaadmin:'el usuario no puede hacer cambios porque no es administrador'
         });
     };
 
